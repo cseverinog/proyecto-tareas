@@ -1,4 +1,7 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
+from psycopg import OperationalError
+
+from app.database import create_task, list_tasks
 
 
 def create_app():
@@ -15,6 +18,26 @@ def create_app():
     @app.get("/health")
     def health():
         return jsonify({"estado": "ok"})
+
+    @app.post("/tareas")
+    def add_task():
+        payload = request.get_json(silent=True) or {}
+        title = str(payload.get("titulo", "")).strip()
+        if not title:
+            return jsonify({"error": "El campo 'titulo' es obligatorio"}), 400
+
+        try:
+            task = create_task(title)
+            return jsonify(task), 201
+        except OperationalError:
+            return jsonify({"error": "No fue posible conectar con la base de datos"}), 503
+
+    @app.get("/tareas")
+    def get_tasks():
+        try:
+            return jsonify(list_tasks())
+        except OperationalError:
+            return jsonify({"error": "No fue posible conectar con la base de datos"}), 503
 
     return app
 
