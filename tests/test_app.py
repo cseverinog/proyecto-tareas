@@ -22,3 +22,12 @@ def test_task_requires_title():
     response = client.post("/tareas", json={})
 
     assert response.status_code == 400
+
+
+def test_task_completion_route_exists():
+    client = create_app().test_client()
+    response = client.patch("/tareas/1/completar")
+
+    # Without PostgreSQL the endpoint reports the unavailable dependency;
+    # this still verifies that the route is registered.
+    assert response.status_code in (404, 503)

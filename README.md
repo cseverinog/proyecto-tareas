@@ -28,3 +28,4 @@ python -m pytest
 - `GET /health`: estado básico de la aplicación.
 - `POST /tareas`: crea una tarea con `{"titulo":"..."}`.
 - `GET /tareas`: lista las tareas guardadas.
+- `PATCH /tareas/<id>/completar`: marca una tarea como completada.

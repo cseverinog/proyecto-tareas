@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from psycopg import OperationalError
 
-from app.database import create_task, list_tasks
+from app.database import complete_task, create_task, list_tasks
 
 
 def create_app():
@@ -36,6 +36,16 @@ def create_app():
     def get_tasks():
         try:
             return jsonify(list_tasks())
+        except OperationalError:
+            return jsonify({"error": "No fue posible conectar con la base de datos"}), 503
+
+    @app.patch("/tareas/<int:task_id>/completar")
+    def finish_task(task_id):
+        try:
+            task = complete_task(task_id)
+            if task is None:
+                return jsonify({"error": "Tarea no encontrada"}), 404
+            return jsonify(task)
         except OperationalError:
             return jsonify({"error": "No fue posible conectar con la base de datos"}), 503
 

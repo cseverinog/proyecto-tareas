@@ -51,3 +51,17 @@ def list_tasks():
             ORDER BY id
             """
         ).fetchall()
+
+
+def complete_task(task_id):
+    create_schema()
+    with get_connection() as connection:
+        return connection.execute(
+            """
+            UPDATE tareas
+            SET completada = TRUE
+            WHERE id = %s
+            RETURNING id, titulo, completada, creada_en
+            """,
+            (task_id,),
+        ).fetchone()
