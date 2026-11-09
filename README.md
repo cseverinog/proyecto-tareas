@@ -13,7 +13,8 @@ La aplicación base ya expone endpoints para consultar su estado, crear tareas y
 
 1. API HTTP para crear y consultar tareas. ✅
 2. Persistencia en PostgreSQL mediante una conexión interna al servicio `db`. ✅
-3. Dockerfile y `docker-compose.yml`.
+3. Dockerfile de la aplicación. ✅
+4. Docker Compose.
 4. Pruebas de comunicación y pipeline de GitHub Actions.
 
 ## Ejecutar las pruebas
