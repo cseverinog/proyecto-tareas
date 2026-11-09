@@ -23,7 +23,7 @@ jobs:
       - name: Ejecutar pruebas de la aplicación
         run: |
           pip install -r requirements.txt
-          pytest
+          python -m pytest
 
       - name: Construir las imágenes
         run: docker compose build
