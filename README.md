@@ -17,6 +17,10 @@ La aplicación base ya expone endpoints para consultar su estado, crear tareas y
 4. Docker Compose. ✅
 4. Pruebas de comunicación y pipeline de GitHub Actions.
 
+## Integración continua
+
+GitHub Actions ejecuta en cada `push` y `pull_request` la construcción de las imágenes, la validación de `docker-compose.yml` y las pruebas de la aplicación. La configuración se encuentra en `.github/workflows/ci.yml`.
+
 ## Ejecutar las pruebas
 
 ```bash
