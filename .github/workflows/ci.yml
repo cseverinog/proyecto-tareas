@@ -29,16 +29,16 @@ jobs:
         run: docker compose build
 
       - name: Levantar servicios
-        run: docker compose up -d
+        run: docker compose up -d --wait
 
       - name: Probar comunicación entre app y PostgreSQL
         run: |
-          curl --fail-with-body --retry 10 --retry-connrefused \
+          curl --fail-with-body --retry 10 --retry-all-errors \
             -X POST http://localhost:5000/tareas \
             -H "Content-Type: application/json" \
             -d '{"titulo":"Prueba CI"}'
 
-          curl --fail-with-body --retry 10 --retry-connrefused \
+          curl --fail-with-body --retry 10 --retry-all-errors \
             http://localhost:5000/tareas | grep -q "Prueba CI"
 
       - name: Mostrar logs si falla la integración
