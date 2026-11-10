@@ -44,4 +44,4 @@ docker compose up -d
 docker compose ps
 ```
 
-La aplicación quedará disponible en `http://localhost:5000`. La aplicación se conecta a PostgreSQL usando el nombre interno del servicio `db`.
+La aplicación quedará disponible en `http://localhost:5000`. La aplicación se conecta a PostgreSQL usando el nombre interno del servicio `db`; el código no contiene `localhost` como destino de la base de datos.

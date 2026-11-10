@@ -4,13 +4,14 @@ import psycopg
 from psycopg.rows import dict_row
 
 
-DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "postgresql://tareas_user:tareas_password@localhost:5432/tareas",
-)
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 
 def get_connection():
+    if not DATABASE_URL:
+        raise psycopg.OperationalError(
+            "DATABASE_URL no está configurada. Defínala mediante el entorno."
+        )
     return psycopg.connect(DATABASE_URL, row_factory=dict_row)
 
 
