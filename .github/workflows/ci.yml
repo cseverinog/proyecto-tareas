@@ -28,5 +28,26 @@ jobs:
       - name: Construir las imágenes
         run: docker compose build
 
+      - name: Levantar servicios
+        run: docker compose up -d
+
+      - name: Probar comunicación entre app y PostgreSQL
+        run: |
+          curl --fail-with-body --retry 10 --retry-connrefused \
+            -X POST http://localhost:5000/tareas \
+            -H "Content-Type: application/json" \
+            -d '{"titulo":"Prueba CI"}'
+
+          curl --fail-with-body --retry 10 --retry-connrefused \
+            http://localhost:5000/tareas | grep -q "Prueba CI"
+
+      - name: Mostrar logs si falla la integración
+        if: failure()
+        run: docker compose logs
+
       - name: Validar configuración Compose
         run: docker compose config
+
+      - name: Detener servicios
+        if: always()
+        run: docker compose down -v
